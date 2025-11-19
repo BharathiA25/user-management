@@ -1,6 +1,7 @@
 import React from "react";
+// MUI components
 import { Dialog, DialogTitle, DialogActions, Button } from "@mui/material";
-
+// DeleteDialog component for confirming user deletion
 export default function DeleteDialog({ open, onClose, onConfirm }) {
   return (
     <Dialog open={open} onClose={onClose}>

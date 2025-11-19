@@ -20,7 +20,14 @@ export default function UserManagement() {
 
   const fetchData = async () => {
     const res = await getAllUsers();
-    setUsers(res.data);
+    // Handle different possible response structures  
+    setUsers(
+      Array.isArray(res.data)
+          ? res.data
+          : res.data?.users || []
+);
+
+
   };
 
   useEffect(() => {
@@ -46,8 +53,9 @@ export default function UserManagement() {
 
   return (
     <>
+    {/* UserNav component to display the navigation bar */ }
       <UserNav />
-
+    {/* UserList component to display the list of users with options to add, edit, and delete users */ }
       <UserList
         users={users}
         onAdd={() => setOpenForm(true)}
@@ -60,7 +68,7 @@ export default function UserManagement() {
           setOpenDelete(true);
         }}
       />
-
+      {/* UserFormDialog component for adding/editing a user */ }
       <UserFormDialog
         open={openForm}
         onClose={() => {
@@ -70,7 +78,7 @@ export default function UserManagement() {
         onSave={handleSave}
         editData={editData}
       />
-
+      {/* DeleteDialog component for confirming user deletion */ }
       <DeleteDialog
         open={openDelete}
         onClose={() => setOpenDelete(false)}
