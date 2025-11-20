@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import UserNav from "../Components/UserNav.jsx";
 import UserList from "../Components/UserList.jsx";
 import UserFormDialog from "../Components/UserFormDialog.jsx";
 import DeleteDialog from "../Components/DeleteDialog.jsx";  
@@ -53,8 +52,6 @@ export default function UserManagement() {
 
   return (
     <>
-    {/* UserNav component to display the navigation bar */ }
-      <UserNav />
     {/* UserList component to display the list of users with options to add, edit, and delete users */ }
       <UserList
         users={users}
