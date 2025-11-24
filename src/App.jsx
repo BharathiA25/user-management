@@ -1,9 +1,9 @@
 import React from 'react'
-import UserDB from './Pages/UserManagement.jsx'
+import UserManagement from './pages/UserManagement.jsx'
 function App() {
   return (
     <>
-      <UserDB />  
+      <UserManagement />
     </>
   
   )
