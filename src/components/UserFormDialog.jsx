@@ -19,6 +19,8 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
             
             },
     }}; 
+    console.log(user);
+    
   // Populate form fields if editData is provided (preserve id explicitly)
   useEffect(() => {
     if (editData) {
