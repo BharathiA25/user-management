@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import UserList from "../components/UserList.jsx";
 import UserFormDialog from "../components/UserFormDialog.jsx";
 import DeleteDialog from "../components/DeleteDialog.jsx";
-
+import { Snackbar, Alert } from "@mui/material";
 import {
   getAllUsers,
   createUser,
@@ -16,6 +16,12 @@ export default function UserManagement() {
   const [openDelete, setOpenDelete] = useState(false);
   const [editData, setEditData] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
+
+  const[successMessage, setSuccessMessage] = useState("");
+  const[openSuccess, setOpenSuccess] = useState(false);
+
+
+  
 console.log("set state users:", users);
 
   const fetchData = async () => {
@@ -40,30 +46,34 @@ console.log("set state users:", users);
       if (editData) {
         // if editData exists, we're updating an existing user
         const payload = {
-          id: editData.userId,
-          name: user.userName ?? "",
-          email: user.userEmail ?? "",
-          age: user.age ?? "",
-          course: user.course ?? "",
-          phone : user.userMobileNo ?? "",
+          id: editData.id,
+          userName: user.name,
+          userEmail: user.email,
+          age: user.age,
+          course: user.course,
+          userMobileNo : user.phone,
         };
         console.log("Updating user with payload:", payload  );
         
         await updateUser(editData.id, payload);
+        setSuccessMessage("Updated Successfully ✔");
+        setOpenSuccess(true);
       } else {
         // Creating new user
         const payload = {
-          name: user.userName ?? "",
-          email: user.userEmail ?? "",
-          age: user.age ?? "",
-          course: user.course ?? "",
-          phone : user.userMobileNo ?? "",
+          userName: user.name,
+          userEmail: user.email,
+          age: user.age,
+          course: user.course,
+          userMobileNo : user.phone,
         };
         console.log("Creating user with payload:", payload);
         await createUser(payload);
       }
       setOpenForm(false);
       setEditData(null);
+      setSuccessMessage("Saved Successfully ✔");
+      setOpenSuccess(true);
       await fetchData();
     } catch (err) {
       console.error("Save failed:", err);
@@ -88,6 +98,7 @@ console.log("set state users:", users);
       console.error("Delete failed:", err);
     }
   };
+
 
   return (
     <>
@@ -119,6 +130,21 @@ console.log("set state users:", users);
         onClose={() => setOpenDelete(false)}
         onConfirm={handleDeleteConfirm}
       />
+     
+      <Snackbar
+  open={openSuccess}
+  autoHideDuration={3000}
+  onClose={() => setOpenSuccess(false)}
+  anchorOrigin={{ vertical: "top", horizontal: "center" }}
+>
+  <Alert
+    onClose={() => setOpenSuccess(false)}
+    severity="success"
+    variant="filled"
+  >
+    {successMessage}
+  </Alert>
+</Snackbar>
     </>
   );
 }

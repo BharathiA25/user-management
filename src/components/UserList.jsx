@@ -9,9 +9,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
+import {Pagination} from "@mui/material";
+
 
 export default function UserList({ users, onAdd, onEdit, onDelete }) {
   const [search, setSearch] = useState("");
+  const[currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 3;
 
   const q = (search || "").toLowerCase();
 
@@ -21,9 +25,13 @@ export default function UserList({ users, onAdd, onEdit, onDelete }) {
     (u.course ?? "").toLowerCase().includes(q)
   );
 
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+
   return (
-    <Box sx={{ padding: '30px', backgroundColor: '#dc202094', height: '100vh', boxSizing: 'border-box' }}>
-      <Paper elevation={6} sx={{ height: '80vh', overflowY: 'auto', boxSizing: 'border-box', borderRadius: '40px' }}>
+    <Box sx={{ padding: '30px', backgroundColor: '#dc202094', height: '90vh',display:'flex',justifyContent:'center',alignItems:'center' }}>
+      <Paper elevation={6} sx={{ height: '70vh', boxSizing: 'border-box', borderRadius: '40px',width:'100%',padding:'20px' }}>
           
 
         <Toolbar sx={{ display: "flex", justifyContent: 'space-between' }}>
@@ -70,7 +78,7 @@ export default function UserList({ users, onAdd, onEdit, onDelete }) {
           </Button>
           </Toolbar>
 
-        {filteredUsers.length === 0 ? (
+        {currentUsers.length === 0 ? (
           <Box sx={{ textAlign: 'center', padding: '40px 0', color: '#555' }}>
             <Typography variant="h6" fontWeight={600}>
               No students found
@@ -81,7 +89,7 @@ export default function UserList({ users, onAdd, onEdit, onDelete }) {
           </Box>
         ) : (
           <Grid container spacing={2} sx={{ padding: '10px' }}>
-            {filteredUsers.map((u , index) => (
+            {currentUsers.map((u , index) => (
               <Grid size={{xs:12,sm:6, md:4}}  key={index}>
                 <Card
                   elevation={3}
@@ -118,7 +126,7 @@ export default function UserList({ users, onAdd, onEdit, onDelete }) {
                       Course: {u.course}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{color : 'white'}}>
-                      Course: {u.userMobileNo}
+                      Phone: {u.userMobileNo}
                     </Typography>
                   </CardContent>
 
@@ -128,7 +136,15 @@ export default function UserList({ users, onAdd, onEdit, onDelete }) {
             ))}
           </Grid>
         )}
+        <Pagination 
+              count={Math.ceil(filteredUsers.length/usersPerPage)}
+              page={currentPage}
+              onChange={(e,value)=>setCurrentPage(value)}
+              color="primary"
+              sx={{ display: "flex", justifyContent: "center", py: 5}}/>
       </Paper>
+        
     </Box>
   );
 }
+3
