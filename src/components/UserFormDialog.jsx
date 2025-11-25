@@ -7,8 +7,8 @@ import {
 } from "@mui/material";
 
 export default function UserFormDialog({ open, onClose, onSave, editData }) {
-  const [user, setUser] = useState({ id: "", name: "", email: "", age: "", course: "" , phone: "" });
-  const [errors, setErrors] = useState({ name: "", email: "", age: "", course: "", phone: "" });
+  const [user, setUser] = useState({ id: "", userName: "", userEmail: "", age: "", course: "" , userMobileNo: "" });
+  const [errors, setErrors] = useState({ userName: "", userEmail: "", age: "", course: "" , userMobileNo: "" });
   const textFieldStyle ={"& .MuiOutlinedInput-root": {
               // set radius for the input wrapper (affects background clipping)
               borderRadius: "10px",
@@ -25,27 +25,27 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
   useEffect(() => {
     if (editData) {
       setUser({
-        id: editData.id ?? "",
-        name: editData.name ?? "",
-        email: editData.email ?? "",
-        age: editData.age ?? "",
-        course: editData.course ?? "",
-        phone: editData.phone ?? ""
+        id: editData.id || editData._id || editData,
+        userName: editData.userName,
+        userEmail: editData.userEmail,
+        age: editData.age,
+        course: editData.course,
+        userMobileNo: editData.userMobileNo,
       });
-      setErrors({ name: "", email: "", age: "", course: "", phone: "" });
+      setErrors({ userName: "", userEmail: "", age: "", course: "", userMobileNo: "" });
     } else {
-      setUser({ id: "", name: "", email: "", age: "", course: "" , phone: "" });
-      setErrors({ name: "", email: "", age: "", course: "", phone: "" });
+      setUser({ id: "", userName: "", userEmail: "", age: "", course: "", userMobileNo: "" });
     }
   }, [editData, open]);
 
   const validate = () => {
     let newErrors = {};
-    if (!user.name || !user.name.toString().trim()) newErrors.name = "Name is required";
-    if (!user.email || !user.email.toString().trim()) newErrors.email = "Email is required";
-    if (!user.age && user.age !== 0) newErrors.age = "Age is required";
-    if (!user.course || !user.course.toString().trim()) newErrors.course = "Course is required";
-    if(!user.phone || !user.phone.toString().trim()) newErrors.phone = "Phone number is required";
+    if (!user.userName.trim()) newErrors.name = "Name is required";
+    if(!user.userEmail.trim()) newErrors.email = "Email is required"; 
+    if(!user.age) newErrors.age = "Age is required";
+    if(!user.course) newErrors.course = "Course is required";
+    if(!user.userMobileNo.trim()) newErrors.phone = "Phone number is required";
+    else if(user.userMobileNo.trim().length !== 10) newErrors.phone = "Phone number must be 10 digits";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -81,10 +81,10 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
           flexBasis: "40%",
           ...textFieldStyle
             }}
-          value={user.name}
-          onChange={handleChange("name")}
-          error={Boolean(errors.name)}
-          helperText={errors.name}
+          value={user.userName}
+          onChange={handleChange("userName")}
+          error={Boolean(errors.userName)}
+          helperText={errors.userName}
 />
 
         <TextField
@@ -92,10 +92,10 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
           variant="outlined"
           type="email"
           sx={{ flexBasis: 'calc(60% - 10px)',...textFieldStyle }}
-          value={user.email}
-          onChange={handleChange("email")}
-          error={Boolean(errors.email)}
-          helperText={errors.email}
+          value={user.userEmail}
+          onChange={handleChange("userEmail")}
+          error={Boolean(errors.userEmail)}
+          helperText={errors.userEmail}
         />
         <TextField
           placeholder="Age"
@@ -133,17 +133,13 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
           variant="outlined"
           type="text"
           sx={{ flexBasis: '100%',...textFieldStyle }}
-          value={user.phone}
+          value={user.userMobileNo}
             onChange={(e) => {
             const onlyNums = e.target.value.replace(/[^0-9]/g, "");
-           handleChange("phone")({ target: { value: onlyNums } });
+            setUser({...user, userMobileNo:onlyNums});
          }}
-          inputProps={{
-            inputMode:"numeric",
-          }
-          }
-          error={Boolean(errors.phone)}
-          helperText={errors.phone}
+          error={Boolean(errors.userMobileNo)}
+          helperText={errors.userMobileNo}
         /> 
       </DialogContent>
 

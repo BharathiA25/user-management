@@ -20,7 +20,7 @@ export default function UserManagement() {
   const[successMessage, setSuccessMessage] = useState("");
   const[openSuccess, setOpenSuccess] = useState(false);
 
-
+console.log("edit data in main:", editData);
   
 console.log("set state users:", users);
 
@@ -43,29 +43,32 @@ console.log("set state users:", users);
 
   const handleSave = async (user) => {
     try {
+
       if (editData) {
         // if editData exists, we're updating an existing user
+        const userId = editData.id || editData._id || editData.userId;
         const payload = {
-          id: editData.id,
-          userName: user.name,
-          userEmail: user.email,
+          id: userId,
+          userName: user.userName,
+          userEmail: user.userEmail,
           age: user.age,
           course: user.course,
-          userMobileNo : user.phone,
+          userMobileNo : user.userMobileNo,
+
         };
         console.log("Updating user with payload:", payload  );
         
-        await updateUser(editData.id, payload);
+        await updateUser(userId, payload);
         setSuccessMessage("Updated Successfully ✔");
         setOpenSuccess(true);
       } else {
         // Creating new user
         const payload = {
-          userName: user.name,
-          userEmail: user.email,
+          userName: user.userName,
+          userEmail: user.userEmail,
           age: user.age,
           course: user.course,
-          userMobileNo : user.phone,
+          userMobileNo : user.userMobileNo,
         };
         console.log("Creating user with payload:", payload);
         await createUser(payload);
@@ -83,10 +86,9 @@ console.log("set state users:", users);
   const handleDeleteConfirm = async () => {
     try {
       // don't call delete if id is empty / invalid
-      if (!deleteId && deleteId !== 0) {
+      if (deleteId === null || deleteId === undefined) {
         console.warn("Skipping delete: deleteId is empty or invalid", deleteId);
         setOpenDelete(false);
-        setDeleteId(null);
         return;
       }
 
@@ -110,9 +112,8 @@ console.log("set state users:", users);
           setOpenForm(true);
         }}
         onDelete={(id) => {
-          // ensure id is numeric if possible
-          const numericId = id === "" ? null : Number(id);
-          setDeleteId(numericId);
+          console.log("DELETE CLICKED ID:", id); 
+          setDeleteId(id);
           setOpenDelete(true);
         }}
       />

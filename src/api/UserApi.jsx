@@ -14,11 +14,11 @@ export const createUser = (data) => axios.post(`${API}/users/register`, data,{
 });
 
 // Function to update an existing user
-export const updateUser = (id, data) => axios.put(`${API}/users/updateUser/${id}`, data,{
+export const updateUser = (id, data) => axios.post(`${API}/users/updateUser?userId=${id}`, data,{
   headers: { "ngrok-skip-browser-warning": "true" }
 });
 
 // Function to delete a user
-export const deleteUser = (id) => axios.delete(`${API}/users/deleteUser/${id}`,{
+export const deleteUser = (id) => axios.delete(`${API}/users/deleteUser?userId=${id}`,{
   headers: { "ngrok-skip-browser-warning": "true" }
 });

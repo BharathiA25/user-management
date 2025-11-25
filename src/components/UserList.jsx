@@ -97,16 +97,16 @@ export default function UserList({ users, onAdd, onEdit, onDelete }) {
                   sx={{
                     borderRadius: '20px',
                     padding: '16px',
-                    backgroundColor: '#08ccfdd0',
+                    backgroundColor: '#0a718aa3',
                   }}
                 >
                   <CardContent >
                     <CardActions sx={{ justifyContent: "flex-end" }}>
                     <IconButton className="bounce" onClick={() => onEdit(u)} >
-                      <EditIcon color="primary" />
+                      <EditIcon sx={{color:'#cbc54eff'}} />
                     </IconButton>
 
-                    <IconButton className="bounce" onClick={() => onDelete(u.id)}>
+                    <IconButton className="bounce" onClick={() => onDelete(u.id || u._id || u.userId)} >
                       <DeleteIcon color="error" />
                     </IconButton>
                   </CardActions >
