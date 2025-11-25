@@ -97,7 +97,7 @@ export default function UserList({ users, onAdd, onEdit, onDelete }) {
                   sx={{
                     borderRadius: '20px',
                     padding: '16px',
-                    backgroundColor: '#369c3fa6',
+                    backgroundColor: '#08ccfdd0',
                   }}
                 >
                   <CardContent >
