@@ -40,12 +40,12 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
 
   const validate = () => {
     let newErrors = {};
-    if (!user.userName.trim()) newErrors.name = "Name is required";
-    if(!user.userEmail.trim()) newErrors.email = "Email is required"; 
+    if (!user.userName.trim()) newErrors.userName = "Name is required";
+    if(!user.userEmail.trim()) newErrors.userEmail = "Email is required"; 
     if(!user.age) newErrors.age = "Age is required";
     if(!user.course) newErrors.course = "Course is required";
-    if(!user.userMobileNo.trim()) newErrors.phone = "Phone number is required";
-    else if(user.userMobileNo.trim().length !== 10) newErrors.phone = "Phone number must be 10 digits";
+    if(!user.userMobileNo.trim()) newErrors.userMobileNo = "Phone number is required";
+    else if(user.userMobileNo.trim().length !== 10) newErrors.userMobileNo = "Phone number must be 10 digits";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
