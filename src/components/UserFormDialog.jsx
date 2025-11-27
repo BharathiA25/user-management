@@ -7,8 +7,8 @@ import {
 } from "@mui/material";
 
 export default function UserFormDialog({ open, onClose, onSave, editData }) {
-  const [user, setUser] = useState({ id: "", name: "", email: "", age: "", course: "" });
-  const [errors, setErrors] = useState({ name: "", email: "", age: "", course: "" });
+  const [user, setUser] = useState({ id: "", name: "", email: "", age: "", course: "" , phone: "" });
+  const [errors, setErrors] = useState({ name: "", email: "", age: "", course: "", phone: "" });
   const textFieldStyle ={"& .MuiOutlinedInput-root": {
               // set radius for the input wrapper (affects background clipping)
               borderRadius: "10px",
@@ -19,6 +19,8 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
             
             },
     }}; 
+    console.log(user);
+    
   // Populate form fields if editData is provided (preserve id explicitly)
   useEffect(() => {
     if (editData) {
@@ -28,11 +30,12 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
         email: editData.email ?? "",
         age: editData.age ?? "",
         course: editData.course ?? "",
+        phone: editData.phone ?? ""
       });
-      setErrors({ name: "", email: "", age: "", course: "" });
+      setErrors({ name: "", email: "", age: "", course: "", phone: "" });
     } else {
-      setUser({ id: "", name: "", email: "", age: "", course: "" });
-      setErrors({ name: "", email: "", age: "", course: "" });
+      setUser({ id: "", name: "", email: "", age: "", course: "" , phone: "" });
+      setErrors({ name: "", email: "", age: "", course: "", phone: "" });
     }
   }, [editData, open]);
 
@@ -42,6 +45,7 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
     if (!user.email || !user.email.toString().trim()) newErrors.email = "Email is required";
     if (!user.age && user.age !== 0) newErrors.age = "Age is required";
     if (!user.course || !user.course.toString().trim()) newErrors.course = "Course is required";
+    if(!user.phone || !user.phone.toString().trim()) newErrors.phone = "Phone number is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -122,7 +126,25 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
           <MenuItem value="Java">Java</MenuItem>
           <MenuItem value="Python">Python</MenuItem>
           <MenuItem value="JavaScript">JavaScript</MenuItem>
-          </TextField> 
+          </TextField>
+          {/* Added phone number field */}
+          <TextField 
+          placeholder="Phone Number"
+          variant="outlined"
+          type="text"
+          sx={{ flexBasis: '100%',...textFieldStyle }}
+          value={user.phone}
+            onChange={(e) => {
+            const onlyNums = e.target.value.replace(/[^0-9]/g, "");
+           handleChange("phone")({ target: { value: onlyNums } });
+         }}
+          inputProps={{
+            inputMode:"numeric",
+          }
+          }
+          error={Boolean(errors.phone)}
+          helperText={errors.phone}
+        /> 
       </DialogContent>
 
       <DialogActions>
