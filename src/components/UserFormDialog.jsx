@@ -25,7 +25,7 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
   useEffect(() => {
     if (editData) {
       setUser({
-        id: editData.id || editData._id || editData,
+        id: editData.userId,
         userName: editData.userName,
         userEmail: editData.userEmail,
         age: editData.age,
@@ -33,10 +33,10 @@ export default function UserFormDialog({ open, onClose, onSave, editData }) {
         userMobileNo: editData.userMobileNo,
       });
       setErrors({ userName: "", userEmail: "", age: "", course: "", userMobileNo: "" });
-    } else {
+    } else if(!editData) {
       setUser({ id: "", userName: "", userEmail: "", age: "", course: "", userMobileNo: "" });
     }
-  }, [editData, open]);
+  }, [editData , open]);
 
   const validate = () => {
     let newErrors = {};
